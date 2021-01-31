@@ -1,8 +1,11 @@
 package com.springboot.project.DocumentDetailsService.service.impl;
 
 import com.springboot.project.DocumentDetailsService.exception.IDNotFoundException;
+import com.springboot.project.DocumentDetailsService.model.ArticleDocument;
+import com.springboot.project.DocumentDetailsService.model.ArticleDocumentRequest;
 import com.springboot.project.DocumentDetailsService.model.FAQDocument;
 import com.springboot.project.DocumentDetailsService.model.FAQDocumentRequest;
+import com.springboot.project.DocumentDetailsService.repository.ArticleDocumentRepository;
 import com.springboot.project.DocumentDetailsService.repository.FAQDocumentRepository;
 import org.junit.Assert;
 import org.junit.Test;
@@ -19,58 +22,58 @@ import java.util.Optional;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-public class FAQDocumentServiceImplTest {
+public class ArticleDocumentServiceImplTest {
 
     @InjectMocks
-    private FAQDocumentServiceImpl faqDocumentService;
+    private ArticleDocumentServiceImpl articleDocumentService;
 
     @Mock
-    private FAQDocumentRepository fAQDocumentRepository;
+    private ArticleDocumentRepository articleDocumentRepository;
 
     @Test
-    public void testgetAllFAQDocuments(){
-        FAQDocument document = new FAQDocument();
+    public void testgetAllArticleDocuments(){
+        ArticleDocument document = new ArticleDocument();
         document.setDocId(1);
-        List<FAQDocument> documents = new ArrayList<>();
+        List<ArticleDocument> documents = new ArrayList<>();
         documents.add(document);
-        Mockito.when(fAQDocumentRepository.findAll()).thenReturn(documents);
-        List<FAQDocument> allFAQDocuments = faqDocumentService.getAllFAQDocuments();
-        Assert.assertNotNull(allFAQDocuments);
+        Mockito.when(articleDocumentRepository.findAll()).thenReturn(documents);
+        List<ArticleDocument> allDocuments = articleDocumentService.getAllArticleDocuments();
+        Assert.assertNotNull(allDocuments);
     }
 
     @Test
     public void testgetDocument(){
-        FAQDocument document = new FAQDocument();
+        ArticleDocument document = new ArticleDocument();
         document.setDocId(1);
-        Mockito.when(fAQDocumentRepository.findById(1)).thenReturn(Optional.of(document));
-        FAQDocument document1 = faqDocumentService.getDocument(1);
+        Mockito.when(articleDocumentRepository.findById(1)).thenReturn(Optional.of(document));
+        ArticleDocument document1 = articleDocumentService.getDocument(1);
         Assert.assertNotNull(document1);
     }
 
     @Test
-    public void testupdateFAQDocument(){
-        FAQDocumentRequest fAQDocumentRequest = new FAQDocumentRequest();
-        fAQDocumentRequest.setDocType("FAQ");
-        fAQDocumentRequest.setQuestion("Question");
-        fAQDocumentRequest.setAnswer("Answer");
-        FAQDocument document = new FAQDocument();
+    public void testupdateArticleDocument(){
+        ArticleDocumentRequest documentRequest = new ArticleDocumentRequest();
+        documentRequest.setDocType("Article");
+        documentRequest.setTitle("Title");
+        documentRequest.setContent("Content");
+        ArticleDocument document = new ArticleDocument();
         document.setDocId(1);
-        document.setDocType("FAQ");
-        document.setQuestion("Question");
-        document.setAnswer("Answer");
-        FAQDocument faqDocument = faqDocumentService.updateFAQDocument(1, fAQDocumentRequest);
-        Assert.assertNotNull(faqDocument);
+        document.setDocType("Article");
+        document.setTitle("Title");
+        document.setContent("Content");
+        ArticleDocument document1 = articleDocumentService.updateArticleDocument(1, documentRequest);
+        Assert.assertNotNull(document1);
     }
 
     @Test
-    public void testupdateFAQDocumentException(){
-        FAQDocumentRequest fAQDocumentRequest = new FAQDocumentRequest();
-        fAQDocumentRequest.setDocType("FAQ");
-        fAQDocumentRequest.setQuestion("Question");
-        fAQDocumentRequest.setAnswer("Answer");
+    public void testupdateArticleDocumentException(){
+        ArticleDocumentRequest documentRequest = new ArticleDocumentRequest();
+        documentRequest.setDocType("Article");
+        documentRequest.setTitle("Title");
+        documentRequest.setContent("Content");
         try {
-            Mockito.when(fAQDocumentRepository.findById(Mockito.anyInt())).thenThrow(IDNotFoundException.class);
-            faqDocumentService.updateFAQDocument(1, fAQDocumentRequest);
+            Mockito.when(articleDocumentRepository.findById(Mockito.anyInt())).thenThrow(IDNotFoundException.class);
+            articleDocumentService.updateArticleDocument(1, documentRequest);
         } catch (IDNotFoundException ex){
             ex.getMessage();
         }
@@ -78,39 +81,39 @@ public class FAQDocumentServiceImplTest {
     }
 
     @Test
-    public void testpatchFAQDocumentByID(){
-        FAQDocument document = new FAQDocument();
+    public void testpatchArticleDocumentByID(){
+        ArticleDocument document = new ArticleDocument();
         document.setDocId(1);
-        document.setDocType("FAQ");
-        document.setQuestion("Question");
-        document.setAnswer("Answer");
-        faqDocumentService.patchFAQDocumentByID(document,1);
+        document.setDocType("Article");
+        document.setTitle("Title");
+        document.setContent("Content");
+        articleDocumentService.patchArticleDocumentByID(document,1);
     }
 
     @Test
-    public void testdeleteFAQDocument(){
-        FAQDocument document = new FAQDocument();
+    public void testdeleteArticleDocument(){
+        ArticleDocument document = new ArticleDocument();
         document.setDocId(1);
-        faqDocumentService.deleteFAQDocument(1);
-
-    }
-
-    @Test
-    public void testdeleteAllFAQDocuments(){
-        FAQDocument document = new FAQDocument();
-        document.setDocId(1);
-        faqDocumentService.deleteAllFAQDocuments();
+        articleDocumentService.deleteArticleDocument(1);
 
     }
 
     @Test
-    public void testCreateDepartment(){
-        FAQDocument document = new FAQDocument();
+    public void testdeleteAllDocuments(){
+        ArticleDocument document = new ArticleDocument();
         document.setDocId(1);
-        document.setDocType("FAQ");
-        document.setQuestion("Question");
-        document.setAnswer("Answer");
-        faqDocumentService.createFAQDocument(document);
+        articleDocumentService.deleteAllArticleDocuments();
+
+    }
+
+    @Test
+    public void testCreateArticleDocument(){
+        ArticleDocument document = new ArticleDocument();
+        document.setDocId(1);
+        document.setDocType("Article");
+        document.setTitle("Title");
+        document.setContent("Content");
+        articleDocumentService.createArticleDocument(document);
 
     }
 

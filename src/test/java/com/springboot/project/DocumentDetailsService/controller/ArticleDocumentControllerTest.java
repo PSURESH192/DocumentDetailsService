@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.springboot.project.DocumentDetailsService.model.ArticleDocument;
+import com.springboot.project.DocumentDetailsService.model.ArticleDocumentRequest;
 import com.springboot.project.DocumentDetailsService.model.FAQDocument;
 import com.springboot.project.DocumentDetailsService.model.FAQDocumentRequest;
 import org.junit.Assert;
@@ -26,7 +28,7 @@ import java.io.IOException;
 @SpringBootTest
 @RunWith(SpringRunner.class)
 @WebAppConfiguration
-public class FAQDocumentControllerTest {
+public class ArticleDocumentControllerTest {
 
     protected MockMvc mvc;
 
@@ -51,8 +53,8 @@ public class FAQDocumentControllerTest {
     }
 
     @Test
-    public void getAllFAQDocumentsTest() throws Exception {
-        String uri = "/faqdocuments";
+    public void getAllArticleDocumentsTest() throws Exception {
+        String uri = "/articleDocuments";
         MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get(uri)
                 .accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
 
@@ -61,8 +63,8 @@ public class FAQDocumentControllerTest {
     }
 
     @Test
-    public void getAllFAQDocumentsTestException404() throws Exception {
-        String uri = "/faqdocument";
+    public void getAllArticleDocumentsTestException404() throws Exception {
+        String uri = "/articledocument";
         MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get(uri)
                 .accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
 
@@ -72,7 +74,7 @@ public class FAQDocumentControllerTest {
 
     @Test
     public void getDocumentTest() throws Exception {
-        String uri = "/faqdocuments/1";
+        String uri = "/articleDocuments/1";
         MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get(uri)
                 .accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
 
@@ -81,13 +83,13 @@ public class FAQDocumentControllerTest {
     }
 
     @Test
-    public void createFAQDocumentTest() throws Exception {
-        String uri = "/faqdocuments";
-        FAQDocument document = new FAQDocument();
+    public void createArticleDocumentTest() throws Exception {
+        String uri = "/articleDocuments";
+        ArticleDocument document = new ArticleDocument();
         document.setDocId(1);
-        document.setDocType("FAQ");
-        document.setQuestion("Question");
-        document.setAnswer("Answer");
+        document.setDocType("Article");
+        document.setTitle("Title");
+        document.setContent("Content");
         String inputJson = mapToJson(document);
         MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.post(uri)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -98,10 +100,10 @@ public class FAQDocumentControllerTest {
     }
 
     @Test
-    public void createFAQDocumentTestBadRequest() throws Exception {
-        String uri = "/faqdocuments";
-        FAQDocument faqDocument = null;
-        String inputJson = mapToJson(faqDocument);
+    public void createArticleDocumentTestBadRequest() throws Exception {
+        String uri = "/articleDocuments";
+        ArticleDocument articleDocument = null;
+        String inputJson = mapToJson(articleDocument);
         MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.post(uri)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(inputJson)).andReturn();
@@ -111,29 +113,29 @@ public class FAQDocumentControllerTest {
     }
 
     @Test
-    public void deleteAllFAQDocumentsTest() throws Exception {
-        String uri = "/faqdocuments";
-        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.delete(uri)).andReturn();
-        int status = mvcResult.getResponse().getStatus();
-        Assert.assertEquals(200, status);
-    }
-
-    @Test(expected = Exception.class)
-    public void deleteFAQDocumentTest() throws Exception {
-        String uri = "/faqdocuments/1";
+    public void deleteAllArticleDocumentsTest() throws Exception {
+        String uri = "/articleDocuments";
         MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.delete(uri)).andReturn();
         int status = mvcResult.getResponse().getStatus();
         Assert.assertEquals(200, status);
     }
 
     @Test
-    public void updateFAQDocumentTest() throws Exception {
-        String uri = "/faqdocuments/1";
-        FAQDocumentRequest fAQDocumentRequest = new FAQDocumentRequest();
-        fAQDocumentRequest.setDocType("FAQ");
-        fAQDocumentRequest.setQuestion("Question");
-        fAQDocumentRequest.setAnswer("Answer");
-        String inputJson = mapToJson(fAQDocumentRequest);
+    public void deleteArticleDocumentTest() throws Exception {
+        String uri = "/articleDocuments/1";
+        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.delete(uri)).andReturn();
+        int status = mvcResult.getResponse().getStatus();
+        Assert.assertEquals(200, status);
+    }
+
+    @Test
+    public void updateArticleDocumentTest() throws Exception {
+        String uri = "/articleDocuments/1";
+        ArticleDocumentRequest documentRequest = new ArticleDocumentRequest();
+        documentRequest.setDocType("Article");
+        documentRequest.setTitle("Title");
+        documentRequest.setContent("Content");
+        String inputJson = mapToJson(documentRequest);
         MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.put(uri)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(inputJson)).andReturn();
@@ -144,9 +146,9 @@ public class FAQDocumentControllerTest {
 
     @Test
     public void updateFAQDocumentTestBadRequest() throws Exception {
-        String uri = "/faqdocuments/1";
-        FAQDocumentRequest FAQDocumentRequest = null;
-        String inputJson = mapToJson(FAQDocumentRequest);
+        String uri = "/articleDocuments/1";
+        ArticleDocumentRequest documentRequest = null;
+        String inputJson = mapToJson(documentRequest);
         MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.put(uri)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(inputJson)).andReturn();
@@ -156,13 +158,13 @@ public class FAQDocumentControllerTest {
     }
 
     @Test
-    public void patchFAQDocumentByIDTest() throws Exception {
-        String uri = "/faqdocuments/1";
-        FAQDocument document = new FAQDocument();
+    public void patchArticleDocumentByIDTest() throws Exception {
+        String uri = "/articleDocuments/1";
+        ArticleDocument document = new ArticleDocument();
         document.setDocId(1);
-        document.setDocType("FAQ");
-        document.setQuestion("Question");
-        document.setAnswer("Answer");
+        document.setDocType("Article");
+        document.setTitle("Title");
+        document.setContent("Content");
         String inputJson = mapToJson(document);
         MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.patch(uri)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -173,9 +175,9 @@ public class FAQDocumentControllerTest {
     }
 
     @Test
-    public void patchFAQDocumentByIDBadRequest() throws Exception {
-        String uri = "/faqdocuments/1";
-        FAQDocument document = null;
+    public void patchArticleDocumentByIDBadRequest() throws Exception {
+        String uri = "/articleDocuments/1";
+        ArticleDocument document = null;
         String inputJson = mapToJson(document);
         MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.patch(uri)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)

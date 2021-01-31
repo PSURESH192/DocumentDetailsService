@@ -1,9 +1,13 @@
 package com.springboot.project.DocumentDetailsService.service.impl;
 
 import com.springboot.project.DocumentDetailsService.exception.IDNotFoundException;
-import com.springboot.project.DocumentDetailsService.model.FAQDocumentRequest;
+import com.springboot.project.DocumentDetailsService.model.ArticleDocument;
+import com.springboot.project.DocumentDetailsService.model.ArticleDocumentRequest;
 import com.springboot.project.DocumentDetailsService.model.FAQDocument;
+import com.springboot.project.DocumentDetailsService.model.FAQDocumentRequest;
+import com.springboot.project.DocumentDetailsService.repository.ArticleDocumentRepository;
 import com.springboot.project.DocumentDetailsService.repository.FAQDocumentRepository;
+import com.springboot.project.DocumentDetailsService.service.ArticleDocumentService;
 import com.springboot.project.DocumentDetailsService.service.FAQDocumentService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,73 +21,73 @@ import java.util.Optional;
 
 @Transactional
 @Service
-public class FAQDocumentServiceImpl implements FAQDocumentService {
+public class ArticleDocumentServiceImpl implements ArticleDocumentService {
 
-    static final Logger logger  = LogManager.getLogger(FAQDocumentServiceImpl.class.getName());
+    static final Logger logger  = LogManager.getLogger(ArticleDocumentServiceImpl.class.getName());
 
     @Autowired
-    private FAQDocumentRepository fAQDocumentRepository;
+    private ArticleDocumentRepository articleDocumentRepository;
 
     @Override
-    public List<FAQDocument> getAllFAQDocuments() {
-        return fAQDocumentRepository.findAll();
+    public List<ArticleDocument> getAllArticleDocuments() {
+        return articleDocumentRepository.findAll();
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public FAQDocument updateFAQDocument(int id, FAQDocumentRequest documentRequest){
-        FAQDocument faqDocument = new FAQDocument();
+    public ArticleDocument updateArticleDocument(int id, ArticleDocumentRequest documentRequest){
+        ArticleDocument document = new ArticleDocument();
         try {
-            Optional<FAQDocument> optionalDepartment = fAQDocumentRepository.findById(id);
+            Optional<ArticleDocument> optionalDepartment = articleDocumentRepository.findById(id);
             if (optionalDepartment.isPresent()) {
-                FAQDocument faqDocumentUpdated = optionalDepartment.get();
-                faqDocumentUpdated.setDocType(documentRequest.getDocType());
-                faqDocumentUpdated.setQuestion(documentRequest.getQuestion());
-                faqDocumentUpdated.setAnswer(documentRequest.getAnswer());
-                faqDocument = fAQDocumentRepository.saveAndFlush(faqDocumentUpdated);
+                ArticleDocument documentUpdated = optionalDepartment.get();
+                documentUpdated.setDocType(documentRequest.getDocType());
+                documentUpdated.setTitle(documentRequest.getTitle());
+                documentUpdated.setContent(documentRequest.getContent());
+                document = articleDocumentRepository.saveAndFlush(documentUpdated);
             }
         } catch (Exception ex){
             logger.error(ex.getMessage());
             throw new IDNotFoundException();
         }
-        return faqDocument;
+        return document;
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void patchFAQDocumentByID(FAQDocument document, int id) {
+    public void patchArticleDocumentByID(ArticleDocument document, int id) {
         if(id == document.getDocId()) {
-            fAQDocumentRepository.save(document);
+            articleDocumentRepository.save(document);
         }
     }
 
     @Override
-    public FAQDocument getDocument(int id) {
-        FAQDocument faqDocument = new FAQDocument();
+    public ArticleDocument getDocument(int id) {
+        ArticleDocument document = new ArticleDocument();
 
-            Optional<FAQDocument> optionalDepartment = fAQDocumentRepository.findById(id);
+            Optional<ArticleDocument> optionalDepartment = articleDocumentRepository.findById(id);
             if (optionalDepartment.isPresent()){
-               faqDocument = optionalDepartment.get();
+               document = optionalDepartment.get();
             }
-        return faqDocument;
+        return document;
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void deleteFAQDocument(int id) {
-        fAQDocumentRepository.deleteById(id);
+    public void deleteArticleDocument(int id) {
+        articleDocumentRepository.deleteById(id);
     }
 
     @Override
-    public void deleteAllFAQDocuments() {
-        fAQDocumentRepository.deleteAll();
+    public void deleteAllArticleDocuments() {
+        articleDocumentRepository.deleteAll();
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void createFAQDocument(FAQDocument faqDocument)
+    public void createArticleDocument(ArticleDocument document)
     {
-        fAQDocumentRepository.save(faqDocument);
+        articleDocumentRepository.save(document);
 
     }
 }

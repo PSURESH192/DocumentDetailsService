@@ -1,24 +1,25 @@
 package com.springboot.project.DocumentDetailsService.service;
 
-import com.springboot.project.DocumentDetailsService.model.FAQDocumentRequest;
+import com.springboot.project.DocumentDetailsService.model.ArticleDocument;
+import com.springboot.project.DocumentDetailsService.model.ArticleDocumentRequest;
 import com.springboot.project.DocumentDetailsService.model.FAQDocument;
-
+import com.springboot.project.DocumentDetailsService.model.FAQDocumentRequest;
 
 import java.util.List;
 
-public interface FAQDocumentService {
+public interface ArticleDocumentService {
 
-   public List<FAQDocument> getAllFAQDocuments();
+   public List<ArticleDocument> getAllArticleDocuments();
 
-   public void createFAQDocument(FAQDocument faqDocument);
+   public void createArticleDocument(ArticleDocument articleDocument);
 
-   public FAQDocument getDocument(int id);
+   public ArticleDocument getDocument(int id);
 
-   public void deleteFAQDocument(int id);
+   public void deleteArticleDocument(int id);
 
-   public void deleteAllFAQDocuments();
+   public void deleteAllArticleDocuments();
 
-   public FAQDocument updateFAQDocument(int id, FAQDocumentRequest documentRequest);
+   public ArticleDocument updateArticleDocument(int id, ArticleDocumentRequest documentRequest);
 
-   public void patchFAQDocumentByID(FAQDocument faqDocument, int id);
+   public void patchArticleDocumentByID(ArticleDocument articleDocument, int id);
 }
